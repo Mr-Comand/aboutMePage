@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Webpage</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-image: url('https://raw.githubusercontent.com/DenverCoder1/minimalistic-wallpaper-collection/main/images/byrotek-sundown-landscape.png');
+            /*url('https://minimalistic-wallpaper.demolab.com/?random'); */
+            background-size: cover;
+            background-color: black;
+            /* Fallback background color */
+        }
+
+        .draggable {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(0, 0);
+            z-index: 1;
+            cursor: grab;
+        }
+
+        #streak_iframe {
+            width: 497px;
+            /* Set container width */
+            height: 195px;
+            /* Set container height */
+        }
+
+        #stats_iframe {
+            position: relative;
+            left: 6px;
+            width: 480px;
+            height: 195px;
+        }
+
+        #toplangs_iframe {
+            width: 300px;
+            height: 140px;
+        }
+
+        .content {
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background for iframe */
+            padding: 20px;
+            /* Add some padding */
+            border-radius: 10px;
+            /* Add border radius */
+            display: flex; /* Use flexbox */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        }
+
+        object {
+            width: 100%;
+            /* Set iframe width */
+            height: 100%;
+            /* Set iframe height */
+            border: none;
+            pointer-events: none;
+            /* Disable pointer events on iframe */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="draggable" id="streak">
+        <div class="content">
+            <object type="image/svg+xml" data="https://streak-stats.demolab.com/?user=mr-comand&theme=github-dark-blue&hide_border=true&date_format=j%20M[%20Y]"></object>
+        </div>
+    </div>
+    <div class="draggable" id="stats">
+        <div class="content">
+            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api?username=mr-comand&show_icons=true&theme=github_dark"></object>
+        </div>
+    </div>
+    <div class="draggable" id="toplangs">
+        <div class="content">
+            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api/top-langs/?username=mr-comand&layout=compact&theme=github_dark"></object>
+            
+        </div>
+    </div>
+    <div class="draggable" id="wakatime">
+        <div class="content">
+            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api/wakatime?username=mr_comand"></object>
+            
+        </div>
+    </div>
+    
+    </div>
+    <script>
+        var movingobjekt = undefined;
+        // Make the content draggable
+        var draggableElements = document.getElementsByClassName('draggable');
+        var moveableObjects = {};
+        for (var i = 0; i < draggableElements.length; i++) {
+            var elementId = draggableElements[i].id;
+            var elementInfo = {
+                elementObject: draggableElements[i],
+                xOffset: 0,
+                yOffset: 0,
+                position: {
+                    left: 0,
+                    top: 0
+                }
+            };
+
+            // Store the information in the mapped object with the element ID as the key
+            moveableObjects[elementId] = elementInfo;
+        }
+
+        // Check if position is saved in localStorage
+        var storedPosition = localStorage.getItem('contentPosition');
+        if (storedPosition) {
+            var storedObject = JSON.parse(storedPosition);
+            for (var elementId in moveableObjects) {
+                if (storedObject.hasOwnProperty(elementId)) {
+                    moveableObjects[elementId].position = storedObject[elementId].position;
+                }
+            }
+        }
+
+
+        for (var elementId in moveableObjects) {
+            if (moveableObjects.hasOwnProperty(elementId)) {
+                var element = moveableObjects[elementId].elementObject;
+
+                // Attach mousedown event listener to the element
+                element.addEventListener('mousedown', function (e) {
+                    e.preventDefault();
+                    movingobjekt = this.id;
+
+                    var offsetX = e.clientX - this.getBoundingClientRect().left;
+                    var offsetY = e.clientY - this.getBoundingClientRect().top;
+
+                    // Store offsetX and offsetY in the elementInfo
+                    moveableObjects[movingobjekt].offsetX = offsetX;
+                    moveableObjects[movingobjekt].offsetY = offsetY;
+
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                    function onMouseMove(e) {
+                        console.log(movingobjekt);
+                        var x = e.clientX - moveableObjects[movingobjekt].offsetX;
+                        var y = e.clientY - moveableObjects[movingobjekt].offsetY;
+                        moveableObjects[movingobjekt].position.left = x;
+                        moveableObjects[movingobjekt].position.top = y;
+                        updatePositions(); // Update positions of all elements
+                    }
+
+                    function onMouseUp() {
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                        localStorage.setItem('contentPosition', JSON.stringify(moveableObjects));
+
+                    }
+                });
+            }
+        }
+
+        function updatePositions() {
+            // Loop through each element in the mappedObject
+            for (var elementId in moveableObjects) {
+                if (moveableObjects.hasOwnProperty(elementId)) {
+                    var elementInfo = moveableObjects[elementId];
+                    var element = elementInfo.elementObject;
+
+                    // Update the left and top positions of the element
+                    element.style.left = elementInfo.position.left + 'px';
+                    element.style.top = elementInfo.position.top + 'px';
+                }
+            }
+        }
+        updatePositions();
+    </script>
+</body>
+
+</html>
