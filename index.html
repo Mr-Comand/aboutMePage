@@ -55,9 +55,13 @@
             /* Add some padding */
             border-radius: 10px;
             /* Add border radius */
-            display: flex; /* Use flexbox */
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically */
+            display: flex;
+            /* Use flexbox */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            flex-direction: column;
         }
 
         object {
@@ -69,36 +73,158 @@
             pointer-events: none;
             /* Disable pointer events on iframe */
         }
+
+        .image {
+            border: none;
+            pointer-events: none;
+            width: 10vw;
+            height: auto;
+        }
+
+        .content a {
+            stroke-width: 0;
+            text-anchor: middle;
+            stroke: none;
+            font-family: 'Segoe UI', Ubuntu, sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            font-style: normal;
+            color: white;
+        }
+
+        .trophy {
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+        }
+
+        .trophy object {
+            width: unset;
+            height: unset;
+        }
     </style>
 </head>
 
 <body>
     <div class="draggable" id="streak">
         <div class="content">
-            <object type="image/svg+xml" data="https://streak-stats.demolab.com/?user=mr-comand&theme=github-dark-blue&hide_border=true&date_format=j%20M[%20Y]"></object>
+            <object type="image/svg+xml"
+                data="https://streak-stats.demolab.com/?user=mr-comand&theme=github-dark-blue&hide_border=true&date_format=j%20M[%20Y]"></object>
         </div>
     </div>
     <div class="draggable" id="stats">
         <div class="content">
-            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api?username=mr-comand&show_icons=true&theme=github_dark"></object>
+            <object type="image/svg+xml"
+                data="https://github-readme-stats.vercel.app/api?username=mr-comand&show_icons=true&theme=github_dark"></object>
         </div>
     </div>
     <div class="draggable" id="toplangs">
         <div class="content">
-            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api/top-langs/?username=mr-comand&layout=compact&theme=github_dark"></object>
-            
+            <object type="image/svg+xml"
+                data="https://github-readme-stats.vercel.app/api/top-langs/?username=mr-comand&layout=compact&theme=github_dark"></object>
+
         </div>
     </div>
     <div class="draggable" id="wakatime">
         <div class="content">
-            <object type="image/svg+xml" data="https://github-readme-stats.vercel.app/api/wakatime?username=mr_comand"></object>
-            
+            <object type="image/svg+xml"
+                data="https://github-readme-stats.vercel.app/api/wakatime?username=mr_comand"></object>
+
         </div>
     </div>
-    
+    <div class="draggable" id="profile">
+        <div class="content">
+            <img class="image" src="/assets/profile_1024.png"></object>
+
+        </div>
+    </div>
+    <div class="draggable" id="github">
+        <div class="content">
+            <div class="link" target="https://github.com/Mr-Comand"><svg class="image" height="32" aria-hidden="true"
+                    viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true">
+                    <path
+                        d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z">
+                    </path>
+                </svg></div>
+        </div>
+    </div>
+    <!-- Id don''t have them
+    <div class="draggable" id="MultiLanguage">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=MultiLanguage"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="LongTimeUser">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=LongTimeUser"></object>
+            </div>
+        </div>
+    </div>
+    -->
+    <div class="draggable" id="Stars">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Stars"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="Followers">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Followers"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="Repositories">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Repositories"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="Reviews">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Reviews"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="Experience">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Experience"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="Issues">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=Issues"></object>
+            </div>
+        </div>
+    </div>
+    <div class="draggable" id="PullRequest">
+        <div class="content">
+            <div class="link trophy" target="https://github.com/ryo-ma/github-profile-trophy">
+                <object type="image/svg+xml" class="trofy"
+                    data="https://github-profile-trophy.vercel.app/?username=mr-comand&theme=darkhub&title=PullRequest"></object>
+            </div>
+        </div>
     </div>
     <script>
-        var movingobjekt = undefined;
+        var clickTime = undefined;
+        var movingObjekt = undefined;
         // Make the content draggable
         var draggableElements = document.getElementsByClassName('draggable');
         var moveableObjects = {};
@@ -128,7 +254,19 @@
                 }
             }
         }
+        // Get all anchor elements in the document
+        var allLinks = document.getElementsByClassName('link');
 
+        // Iterate over each anchor element
+        for (var i = 0; i < allLinks.length; i++) {
+            // Attach mousedown event listener to the anchor element
+            allLinks[i].addEventListener("mouseup", function (event) {
+                // Start the press timer
+                if ((new Date().getTime() - clickTime) < 100) {
+                    window.location.href = this.getAttribute("target");
+                }
+            });
+        }
 
         for (var elementId in moveableObjects) {
             if (moveableObjects.hasOwnProperty(elementId)) {
@@ -137,31 +275,32 @@
                 // Attach mousedown event listener to the element
                 element.addEventListener('mousedown', function (e) {
                     e.preventDefault();
-                    movingobjekt = this.id;
+                    clickTime = new Date().getTime();
+                    movingObjekt = this.id;
 
                     var offsetX = e.clientX - this.getBoundingClientRect().left;
                     var offsetY = e.clientY - this.getBoundingClientRect().top;
 
                     // Store offsetX and offsetY in the elementInfo
-                    moveableObjects[movingobjekt].offsetX = offsetX;
-                    moveableObjects[movingobjekt].offsetY = offsetY;
+                    moveableObjects[movingObjekt].offsetX = offsetX;
+                    moveableObjects[movingObjekt].offsetY = offsetY;
 
                     document.addEventListener('mousemove', onMouseMove);
                     document.addEventListener('mouseup', onMouseUp);
                     function onMouseMove(e) {
-                        console.log(movingobjekt);
-                        var x = e.clientX - moveableObjects[movingobjekt].offsetX;
-                        var y = e.clientY - moveableObjects[movingobjekt].offsetY;
-                        moveableObjects[movingobjekt].position.left = x;
-                        moveableObjects[movingobjekt].position.top = y;
+                        console.log(movingObjekt);
+                        var x = e.clientX - moveableObjects[movingObjekt].offsetX;
+                        var y = e.clientY - moveableObjects[movingObjekt].offsetY;
+                        moveableObjects[movingObjekt].position.left = x;
+                        moveableObjects[movingObjekt].position.top = y;
                         updatePositions(); // Update positions of all elements
                     }
 
                     function onMouseUp() {
+
                         document.removeEventListener('mousemove', onMouseMove);
                         document.removeEventListener('mouseup', onMouseUp);
                         localStorage.setItem('contentPosition', JSON.stringify(moveableObjects));
-
                     }
                 });
             }
