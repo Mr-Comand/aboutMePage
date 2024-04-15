@@ -67,7 +67,7 @@
             animation-timing-function: cubic-bezier(.46, .03, .52, .96);
         }
         .content > * {
-            filter: drop-shadow(15px 5px 2px #0000006d);
+            filter: drop-shadow(var(--shadowX) var(--shadowY) 2px #0000009d);
             /* Enable pointer events for children */
         }
 
@@ -133,7 +133,7 @@
             
         }
         .dragging > div > *{
-            filter: drop-shadow(30px 10px 4px #0000006d);
+            filter: drop-shadow(calc(var(--shadowX) * 2) calc(var(--shadowY)*2) 4px #0000009d);
         }
     </style>
 </head>

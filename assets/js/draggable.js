@@ -1,8 +1,14 @@
+var sunX = 0.4 * window.innerWidth;
+var sunY = 0.7 * window.innerHeight;
+var shadowDistance = 15;
+
 var clickTime = undefined;
 var movingObjekt = undefined;
+
 // Make the content draggable
 var draggableElements = document.getElementsByClassName("draggable");
 var moveableObjects = {};
+
 for (var i = 0; i < draggableElements.length; i++) {
   var elementId = draggableElements[i].id;
   var elementInfo = {
@@ -82,6 +88,21 @@ function updatePositions() {
       // Update the left and top positions of the element
       element.style.left = elementInfo.position.left + "px";
       element.style.top = elementInfo.position.top + "px";
+
+
+      // Calculate angle between the sun and the draggable element
+
+      var deltaX = elementInfo.position.left - sunX;
+      var deltaY = elementInfo.position.top - sunY;
+      var angleRadians = Math.atan2(deltaY, deltaX);
+
+      // Calculate shadow position based on angle and distance
+      var shadowX = shadowDistance * Math.cos(angleRadians);
+      var shadowY = shadowDistance * Math.sin(angleRadians);
+
+      // Apply drop shadow effect
+      element.style.setProperty("--shadowX", shadowX + "px");
+      element.style.setProperty("--shadowY", shadowY + "px");
     }
   }
 }
