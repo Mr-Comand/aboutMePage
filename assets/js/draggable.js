@@ -40,6 +40,7 @@ for (var elementId in moveableObjects) {
       e.preventDefault();
       clickTime = new Date().getTime();
       movingObjekt = this.id;
+      bringToFront(movingObjekt);
       var offsetX = e.clientX - this.getBoundingClientRect().left;
       var offsetY = e.clientY - this.getBoundingClientRect().top;
 
@@ -84,3 +85,27 @@ function updatePositions() {
   }
 }
 updatePositions();
+
+
+function bringToFront(elementId) {
+  var zIndexCounter = 0;
+  moveableObjects[elementId].z_index = Object.keys(moveableObjects).length+2;
+  // Sort the elements by z-index first
+  var sortedElements = Object.values(moveableObjects).sort(function(a, b) {
+    return a.z_index - b.z_index;
+  });
+  console.log(Object.keys(moveableObjects).length+2, moveableObjects[elementId].z_index, moveableObjects, sortedElements)
+  // Loop through each sorted element and update its z-index
+  for (var i = 0; i < sortedElements.length; i++) {
+      zIndexCounter++;
+      moveableObjects[sortedElements[i].elementObject.id].z_index = zIndexCounter;
+    
+  }
+  for (var elementId in moveableObjects) {
+    if (moveableObjects.hasOwnProperty(elementId)) {
+      var elementInfo = moveableObjects[elementId];
+      var element = elementInfo.elementObject;
+      element.style.zIndex = elementInfo.z_index;
+    }
+  }
+}
