@@ -43,7 +43,7 @@ for (var elementId in moveableObjects) {
       bringToFront(movingObjekt);
       var offsetX = e.clientX - this.getBoundingClientRect().left;
       var offsetY = e.clientY - this.getBoundingClientRect().top;
-
+      moveableObjects[movingObjekt].elementObject.classList.add("dragging");
       // Store offsetX and offsetY in the elementInfo
       moveableObjects[movingObjekt].offsetX = offsetX;
       moveableObjects[movingObjekt].offsetY = offsetY;
@@ -62,6 +62,7 @@ for (var elementId in moveableObjects) {
       function onMouseUp() {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
+        moveableObjects[movingObjekt].elementObject.classList.remove("dragging");
         localStorage.setItem(
           "contentPosition",
           JSON.stringify(moveableObjects)
@@ -94,7 +95,6 @@ function bringToFront(elementId) {
   var sortedElements = Object.values(moveableObjects).sort(function(a, b) {
     return a.z_index - b.z_index;
   });
-  console.log(Object.keys(moveableObjects).length+2, moveableObjects[elementId].z_index, moveableObjects, sortedElements)
   // Loop through each sorted element and update its z-index
   for (var i = 0; i < sortedElements.length; i++) {
       zIndexCounter++;
