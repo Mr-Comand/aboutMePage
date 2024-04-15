@@ -33,6 +33,11 @@ if (storedPosition) {
   for (var elementId in moveableObjects) {
     if (storedObject.hasOwnProperty(elementId)) {
       moveableObjects[elementId].position = storedObject[elementId].position;
+      if (
+        isElementOutsideViewport(moveableObjects[elementId].elementObject, true)
+      ) {
+        moveToValidPosition(elementId);
+      }
     }
   }
 }
@@ -68,7 +73,9 @@ for (var elementId in moveableObjects) {
       function onMouseUp() {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
-        moveableObjects[movingObjekt].elementObject.classList.remove("dragging");
+        moveableObjects[movingObjekt].elementObject.classList.remove(
+          "dragging"
+        );
         localStorage.setItem(
           "contentPosition",
           JSON.stringify(moveableObjects)
@@ -78,14 +85,20 @@ for (var elementId in moveableObjects) {
   }
 }
 
-function updatePositions() {
+function updatePositions(ignoreValidity = false) {
   // Loop through each element in the mappedObject
   for (var elementId in moveableObjects) {
     if (moveableObjects.hasOwnProperty(elementId)) {
       var elementInfo = moveableObjects[elementId];
       var element = elementInfo.elementObject;
-
+      var oldPositions = [element.style.left, element.style.top];
       // Update the left and top positions of the element
+      element.style.left = elementInfo.position.left + "px";
+      element.style.top = elementInfo.position.top + "px";
+
+      if (isElementOutsideViewport(element, true) && !ignoreValidity) {
+        moveToValidPosition(elementId);
+      }
       element.style.left = elementInfo.position.left + "px";
       element.style.top = elementInfo.position.top + "px";
 
@@ -108,19 +121,17 @@ function updatePositions() {
 }
 updatePositions();
 
-
 function bringToFront(elementId) {
   var zIndexCounter = 0;
-  moveableObjects[elementId].z_index = Object.keys(moveableObjects).length+2;
+  moveableObjects[elementId].z_index = Object.keys(moveableObjects).length + 2;
   // Sort the elements by z-index first
-  var sortedElements = Object.values(moveableObjects).sort(function(a, b) {
+  var sortedElements = Object.values(moveableObjects).sort(function (a, b) {
     return a.z_index - b.z_index;
   });
   // Loop through each sorted element and update its z-index
   for (var i = 0; i < sortedElements.length; i++) {
-      zIndexCounter++;
-      moveableObjects[sortedElements[i].elementObject.id].z_index = zIndexCounter;
-    
+    zIndexCounter++;
+    moveableObjects[sortedElements[i].elementObject.id].z_index = zIndexCounter;
   }
   for (var elementId in moveableObjects) {
     if (moveableObjects.hasOwnProperty(elementId)) {
@@ -129,4 +140,47 @@ function bringToFront(elementId) {
       element.style.zIndex = elementInfo.z_index;
     }
   }
+}
+
+function isElementOutsideViewport(element, partialDetection) {
+  var rect = element.getBoundingClientRect();
+  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  var viewportHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+
+  if (partialDetection) {
+    // Check if any part of the element is outside of the viewport
+    return (
+      rect.left < 0 ||
+      rect.top < 0 ||
+      rect.right > viewportWidth ||
+      rect.bottom > viewportHeight
+    );
+  } else {
+    // Check if the entire element is outside of the viewport
+    return (
+      rect.right <= 0 ||
+      rect.bottom <= 0 ||
+      rect.left >= viewportWidth ||
+      rect.top >= viewportHeight
+    );
+  }
+}
+function moveToValidPosition(elementId) {
+  console.log("moved");
+  var element = moveableObjects[elementId].elementObject;
+  var rect = element.getBoundingClientRect();
+  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  var viewportHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+  // Calculate the new position to ensure the element stays within the viewport
+  var newX = Math.min(Math.max(rect.left, 10), viewportWidth - rect.width);
+  var newY = Math.min(Math.max(rect.top, 10), viewportHeight - rect.height);
+
+  // Set the element's new position
+
+
+  moveableObjects[elementId].position.left = newX ;
+  moveableObjects[elementId].position.top = newY;
+  //updatePositions(ignoreValidity=true);
 }
