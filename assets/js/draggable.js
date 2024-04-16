@@ -47,13 +47,17 @@ for (var elementId in moveableObjects) {
     var element = moveableObjects[elementId].elementObject;
 
     // Attach mousedown event listener to the element
-    element.addEventListener("mousedown", function (e) {
+    element.addEventListener("touchstart", onMouseUp);
+    element.addEventListener("mousedown", onMouseUp);
+    function onMouseUp(e) {
       e.preventDefault();
       clickTime = new Date().getTime();
       movingObjekt = this.id;
       bringToFront(movingObjekt);
-      var offsetX = e.clientX - this.getBoundingClientRect().left;
-      var offsetY = e.clientY - this.getBoundingClientRect().top;
+      var offsetX =
+        (e.clientX || e.touches[0].clientX) - this.getBoundingClientRect().left;
+      var offsetY =
+        (e.clientY || e.touches[0].clientY) - this.getBoundingClientRect().top;
       moveableObjects[movingObjekt].elementObject.classList.add("dragging");
       // Store offsetX and offsetY in the elementInfo
       moveableObjects[movingObjekt].offsetX = offsetX;
@@ -61,10 +65,25 @@ for (var elementId in moveableObjects) {
 
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
+      document.addEventListener("touchmove", onMouseMove);
+      document.addEventListener("touchend", onMouseUp);
       function onMouseMove(e) {
         console.log(movingObjekt);
-        var x = e.clientX - moveableObjects[movingObjekt].offsetX;
-        var y = e.clientY - moveableObjects[movingObjekt].offsetY;
+        var x =
+          (e.clientX || e.touches[0].clientX) -
+          moveableObjects[movingObjekt].offsetX;
+        var y =
+          (e.clientY || e.touches[0].clientY) -
+          moveableObjects[movingObjekt].offsetY;
+        moveableObjects[movingObjekt].position.left = x;
+        moveableObjects[movingObjekt].position.top = y;
+        updatePositions(); // Update positions of all elements
+      }
+      function onTouchMove(e) {
+        var touch = e.touches[0]; // Get the first touch (assuming single touch)
+        console.log(movingObjekt, touch.clientX);
+        var x = touch.clientX - moveableObjects[movingObjekt].offsetX;
+        var y = touch.clientY - moveableObjects[movingObjekt].offsetY;
         moveableObjects[movingObjekt].position.left = x;
         moveableObjects[movingObjekt].position.top = y;
         updatePositions(); // Update positions of all elements
@@ -73,6 +92,8 @@ for (var elementId in moveableObjects) {
       function onMouseUp() {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
+        document.removeEventListener("touchmove", onTouchMove);
+        document.removeEventListener("touchend", onMouseUp);
         moveableObjects[movingObjekt].elementObject.classList.remove(
           "dragging"
         );
@@ -81,7 +102,7 @@ for (var elementId in moveableObjects) {
           JSON.stringify(moveableObjects)
         );
       }
-    });
+    }
   }
 }
 
@@ -101,7 +122,6 @@ function updatePositions(ignoreValidity = false) {
       }
       element.style.left = elementInfo.position.left + "px";
       element.style.top = elementInfo.position.top + "px";
-
 
       // Calculate angle between the sun and the draggable element
 
