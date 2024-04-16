@@ -40,6 +40,10 @@ if (storedPosition) {
       }
     }
   }
+} else {
+  for (var elementId in moveableObjects) {
+    moveToRandomPosition(elementId);
+  }
 }
 
 for (var elementId in moveableObjects) {
@@ -199,8 +203,14 @@ function moveToValidPosition(elementId) {
 
   // Set the element's new position
 
-
-  moveableObjects[elementId].position.left = newX ;
+  moveableObjects[elementId].position.left = newX;
   moveableObjects[elementId].position.top = newY;
   //updatePositions(ignoreValidity=true);
+}
+function moveToRandomPosition(elementId) {
+  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  var viewportHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+  moveableObjects[elementId].position.left = Math.random() * viewportWidth;
+  moveableObjects[elementId].position.top = Math.random() * viewportHeight;
 }
