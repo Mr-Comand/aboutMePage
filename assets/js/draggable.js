@@ -4,7 +4,15 @@ var shadowDistance = 15;
 
 var clickTime = undefined;
 var movingObjekt = undefined;
-
+window.addEventListener("resize", onWindowResize)
+function onWindowResize(){
+  for (var elementId in moveableObjects) {
+    moveToValidPosition(elementId);
+  }
+  sunX = 0.4 * window.innerWidth;
+  sunY = 0.7 * window.innerHeight;
+  updatePositions()
+}
 // Make the content draggable
 var draggableElements = document.getElementsByClassName("draggable");
 var moveableObjects = {};
@@ -205,7 +213,6 @@ function moveToValidPosition(elementId) {
 
   moveableObjects[elementId].position.left = newX;
   moveableObjects[elementId].position.top = newY;
-  //updatePositions(ignoreValidity=true);
 }
 function moveToRandomPosition(elementId) {
   var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
