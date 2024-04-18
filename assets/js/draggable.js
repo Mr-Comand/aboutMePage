@@ -4,8 +4,13 @@ var shadowDistance = 15;
 
 var clickTime = undefined;
 var movingObjekt = undefined;
+
+var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 window.addEventListener("resize", onWindowResize)
 function onWindowResize(){
+  viewportWidth  = window.innerWidth || document.documentElement.clientWidth;
+  viewportHeight = window.innerHeight || document.documentElement.clientHeight;
   for (var elementId in moveableObjects) {
     moveToValidPosition(elementId);
   }
@@ -176,9 +181,6 @@ function bringToFront(elementId) {
 
 function isElementOutsideViewport(element, partialDetection) {
   var rect = element.getBoundingClientRect();
-  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-  var viewportHeight =
-    window.innerHeight || document.documentElement.clientHeight;
 
   if (partialDetection) {
     // Check if any part of the element is outside of the viewport
@@ -202,9 +204,6 @@ function moveToValidPosition(elementId) {
   console.log("moved");
   var element = moveableObjects[elementId].elementObject;
   var rect = element.getBoundingClientRect();
-  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-  var viewportHeight =
-    window.innerHeight || document.documentElement.clientHeight;
   // Calculate the new position to ensure the element stays within the viewport
   var newX = Math.min(Math.max(rect.left, 10), viewportWidth - rect.width);
   var newY = Math.min(Math.max(rect.top, 10), viewportHeight - rect.height);
@@ -215,9 +214,8 @@ function moveToValidPosition(elementId) {
   moveableObjects[elementId].position.top = newY;
 }
 function moveToRandomPosition(elementId) {
-  var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-  var viewportHeight =
-    window.innerHeight || document.documentElement.clientHeight;
   moveableObjects[elementId].position.left = Math.random() * viewportWidth;
   moveableObjects[elementId].position.top = Math.random() * viewportHeight;
 }
+
+
