@@ -111,6 +111,7 @@ for (var elementId in moveableObjects) {
         document.removeEventListener("mouseup", onMouseUp);
         document.removeEventListener("touchmove", onTouchMove);
         document.removeEventListener("touchend", onMouseUp);
+        movingObjekt = undefined;
         moveableObjects[movingObjekt].elementObject.classList.remove(
           "dragging"
         );
