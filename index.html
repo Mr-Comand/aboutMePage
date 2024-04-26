@@ -261,6 +261,22 @@
     <script src="assets/js/draggable.js"></script>
     <script src="assets/js/links.js"></script>
     <script src="assets/js/shake.js"></script>
-</body>
+    <script>
+        // Get the current month (0-indexed, so January is 0, February is 1, etc.)
+        var currentMonth = new Date().getMonth();
+        console.log(currentMonth,currentMonth === 3);
+        // Check if it's winter (December, January, or February)
+        if (currentMonth === 11 || currentMonth === 0 || currentMonth === 1) {
+            // Create a new script element
+            var snowScript = document.createElement('script');
+    
+            // Set the source of the script to snow.js
+            snowScript.src = 'assets/js/snow.js';
+    
+            // Append the script element to the document body
+            document.body.appendChild(snowScript);
+        }
+    </script>
+    </body>
 
 </html>
