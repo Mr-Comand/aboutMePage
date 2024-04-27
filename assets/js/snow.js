@@ -10,9 +10,9 @@ function init() {
 
   // Append the link element to the head of the document
   document.head.appendChild(linkElement);
-  const snowContainer = document.createElement("div");
+  const snowContainer = document.body
   snowContainer.id="snowflakes";
-  document.body.appendChild(snowContainer);
+  
   //const snowContainer = document.getElementById("snowflakes");
   const snowflakeicons = ["❄️"];
   const maxsnowflakes = 20;
@@ -41,7 +41,7 @@ function init() {
 
       const size = Math.random() * 20 + 10; // Random size between 10 and 30
       snowflake.style.fontSize = `${size}px`;
-
+      snowflake.style.zIndex = parseInt((size-10)/2);
       const startPosition = Math.random() * window.innerWidth;
       snowflake.style.left = `${startPosition}px`;
       snowflake.style.top = `-20px`;
