@@ -8,6 +8,21 @@
     <link rel="shortcut icon" type="image/png" href="/assets/img/profile_1024.png">
     <link rel="icon" type="image/png" href="/assets/img/profile_1024.png">
     <style>
+
+
+    #background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://raw.githubusercontent.com/DenverCoder1/minimalistic-wallpaper-collection/main/images/byrotek-sundown-landscape.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        /*url('https://minimalistic-wallpaper.demolab.com/?random'); */
+        pointer-events: none; /* So the background doesn't interfere with cursor events */
+
+    }
         body,
         html {
             margin: 0;
@@ -15,8 +30,6 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-image: url('https://raw.githubusercontent.com/DenverCoder1/minimalistic-wallpaper-collection/main/images/byrotek-sundown-landscape.png');
-            /*url('https://minimalistic-wallpaper.demolab.com/?random'); */
             background-size: cover;
             background-position: center ;
             background-color: black;
@@ -142,6 +155,7 @@
 </head>
 
 <body>
+    <div id="background"></div>
     <div class="draggable" id="streak">
         <div class="content">
             <object type="image/svg+xml"
@@ -261,6 +275,8 @@
     <script src="assets/js/draggable.js"></script>
     <script src="assets/js/links.js"></script>
     <script src="assets/js/shake.js"></script>
+    <script src="assets/js/bg-move.js"></script>
+
     <script>
         // Get the current month (0-indexed, so January is 0, February is 1, etc.)
         var currentMonth = new Date().getMonth();
