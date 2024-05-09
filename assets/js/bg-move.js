@@ -1,13 +1,18 @@
 let touchMoved = false;
-
+const scale = 0.03
 // Function to handle movement
 function handleMovement(x, y) {
     const background = document.getElementById('background');
     const bgWidth = background.offsetWidth;
     const bgHeight = background.offsetHeight;
-    const moveX = (x / window.innerWidth - 0.5) * bgWidth * -0.01;
-    const moveY = (y / window.innerHeight - 0.5) * bgHeight * -0.01;
-    background.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.01)`;
+    
+    const moveX = (x / window.innerWidth - 0.5) * bgWidth * -1 * scale;
+    const moveY = (y / window.innerHeight - 0.5) * bgHeight * -1 * scale;
+    background.style.transform = `translate(${moveX}px, ${moveY}px) scale(${(scale+1)})`;
+    const middleground = document.getElementById('middleground');
+    middleground.style.transform = `translate(${moveX/1.5}px, ${moveY/1.5}px) scale(${(scale/2+1)})`;
+    const foreground = document.getElementById('foreground');
+    foreground.style.transform = `translate(${moveX/2}px, ${moveY/2}px) scale(${(scale/2+1)})`;
 }
 
 // Mouse move event listener
