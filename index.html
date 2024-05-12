@@ -104,11 +104,17 @@
             /* Enable pointer events for children */
         }
 
-        object {
+        object:not(.noFullWidth) {
             width: 100%;
             /* Set iframe width */
             height: 100%;
             /* Set iframe height */
+            border: none;
+            pointer-events: none;
+            /* Disable pointer events on iframe */
+        }
+
+        .noFullWidth {
             border: none;
             pointer-events: none;
             /* Disable pointer events on iframe */
@@ -180,26 +186,26 @@
 
         <div class="draggable" id="streak">
             <div class="content">
-                <object type="image/svg+xml"
+                <object type="image/svg+xml" width="467" height="195" class="noFullWidth"
                     data="https://streak-stats.demolab.com/?user=mr-comand&theme=github-dark-blue&hide_border=true&date_format=j%20M[%20Y]"></object>
             </div>
         </div>
         <div class="draggable" id="stats">
             <div class="content">
-                <object type="image/svg+xml"
+                <object type="image/svg+xml" width="467" height="195" class="noFullWidth"
                     data="https://github-readme-stats.vercel.app/api?username=mr-comand&show_icons=true&theme=github_dark"></object>
             </div>
         </div>
         <div class="draggable" id="toplangs">
             <div class="content">
-                <object type="image/svg+xml"
+                <object type="image/svg+xml" width="300" class="noFullWidth"
                     data="https://github-readme-stats.vercel.app/api/top-langs/?username=mr-comand&layout=compact&theme=github_dark"></object>
 
             </div>
         </div>
         <div class="draggable" id="wakatime">
             <div class="content">
-                <object type="image/svg+xml"
+                <object type="image/svg+xml" width="495" class="noFullWidth"
                     data="https://github-readme-stats.vercel.app/api/wakatime?username=mr_comand&theme=github_dark&layout=compact"></object>
 
             </div>
