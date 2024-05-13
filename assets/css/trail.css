@@ -1,0 +1,23 @@
+.sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+    /* Ensure it doesn't interfere with cursor interaction */
+    animation: sparkle 1s ease forwards;
+
+}
+
+@keyframes sparkle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
