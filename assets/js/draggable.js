@@ -182,37 +182,46 @@ function bringToFront(elementId) {
 
 function isElementOutsideViewport(element, partialDetection) {
   var rect = element.getBoundingClientRect();
+  var parentElement = element.parentElement;
+  var parentRect = parentElement.getBoundingClientRect();
 
   if (partialDetection) {
-    // Check if any part of the element is outside of the viewport
+    // Check if any part of the element is outside of the parent
     return (
-      rect.left < 0 ||
-      rect.top < 0 ||
-      rect.right > viewportWidth ||
-      rect.bottom > viewportHeight
+      rect.left < parentRect.left ||
+      rect.top < parentRect.top ||
+      rect.right > parentRect.right ||
+      rect.bottom > parentRect.bottom
     );
   } else {
-    // Check if the entire element is outside of the viewport
+    // Check if the entire element is outside of the parent
     return (
-      rect.right <= 0 ||
-      rect.bottom <= 0 ||
-      rect.left >= viewportWidth ||
-      rect.top >= viewportHeight
+      rect.right <= parentRect.left ||
+      rect.bottom <= parentRect.top ||
+      rect.left >= parentRect.right ||
+      rect.top >= parentRect.bottom
     );
   }
 }
+
 function moveToValidPosition(elementId) {
   console.log("moved");
   var element = moveableObjects[elementId].elementObject;
+  var parentElement = element.parentElement;
   var rect = element.getBoundingClientRect();
-  // Calculate the new position to ensure the element stays within the viewport
-  var newX = Math.min(Math.max(rect.left, 10), viewportWidth - rect.width);
-  var newY = Math.min(Math.max(rect.top, 10), viewportHeight - rect.height);
+  var parentRect = parentElement.getBoundingClientRect();
 
-  // Set the element's new position
+  // Calculate the new position to ensure the element stays within the parent element
+  var newX = Math.min(Math.max(rect.left - parentRect.left, 10), parentRect.width - rect.width - 10);
+  var newY = Math.min(Math.max(rect.top - parentRect.top, 10), parentRect.height - rect.height - 10);
 
+  // Set the element's new position relative to the parent
   moveableObjects[elementId].position.left = newX;
   moveableObjects[elementId].position.top = newY;
+
+  // Apply the new position to the element
+  element.style.left = newX + "px";
+  element.style.top = newY + "px";
 }
 function moveToRandomPosition(elementId) {
   moveableObjects[elementId].position.left = Math.random() * viewportWidth;
