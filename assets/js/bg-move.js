@@ -5,7 +5,8 @@ function handleMovement(x, y) {
     const background = document.getElementById('background');
     const bgWidth = background.offsetWidth;
     const bgHeight = background.offsetHeight;
-    
+    x = Math.min(Math.max(x,0),bgWidth)
+    y = Math.min(Math.max(y,0),bgHeight)
     const moveX = (x / window.innerWidth - 0.5) * bgWidth * -1 * scale;
     const moveY = (y / window.innerHeight - 0.5) * bgHeight * -1 * scale;
     background.style.transform = `translate(${moveX}px, ${moveY}px) scale(${(scale+1)})`;
