@@ -60,6 +60,7 @@
             transform: translate(0, 0);
             z-index: 1;
             cursor: grab;
+            transition: transform 0.1s ease;
         }
 
         #streak_iframe {
@@ -102,9 +103,10 @@
 
         .content>* {
             filter: drop-shadow(var(--shadowX) var(--shadowY) 2px #0000009d);
-            /* Enable pointer events for children */
         }
-
+        .draggable:not(.dragging)>.content>*{
+            transition: filter 0.1s ease;
+        }
         object:not(.noFullWidth) {
             width: 100%;
             /* Set iframe width */
@@ -170,8 +172,6 @@
 
         .dragging {
             transform: scale(1.1);
-
-
         }
 
         .dragging>div>* {
