@@ -176,6 +176,15 @@
 
         .dragging>div>* {
             filter: drop-shadow(calc(var(--shadowX) * 2) calc(var(--shadowY)*2) 4px #0000009d);
+            
+        }
+
+        .draggable {
+            perspective: 1000px;
+            perspective-origin: 50% 50%;
+        }
+        .draggable>.content{
+            transition: transform 0.3s cubic-bezier(.38,.22,.69,1.05);
         }
     </style>
 </head>

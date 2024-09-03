@@ -8,8 +8,8 @@ var movingObjekt = undefined;
 var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 window.addEventListener("resize", onWindowResize)
-function onWindowResize(){
-  viewportWidth  = window.innerWidth || document.documentElement.clientWidth;
+function onWindowResize() {
+  viewportWidth = window.innerWidth || document.documentElement.clientWidth;
   viewportHeight = window.innerHeight || document.documentElement.clientHeight;
   for (var elementId in moveableObjects) {
     moveToValidPosition(elementId);
@@ -64,9 +64,9 @@ for (var elementId in moveableObjects) {
     var element = moveableObjects[elementId].elementObject;
 
     // Attach mousedown event listener to the element
-    element.addEventListener("touchstart", onMouseUp);
-    element.addEventListener("mousedown", onMouseUp);
-    function onMouseUp(e) {
+    element.addEventListener("touchstart", onMouseDown);
+    element.addEventListener("mousedown", onMouseDown);
+    function onMouseDown(e) {
       e.preventDefault();
       clickTime = new Date().getTime();
       movingObjekt = this.id;
@@ -79,6 +79,8 @@ for (var elementId in moveableObjects) {
       // Store offsetX and offsetY in the elementInfo
       moveableObjects[movingObjekt].offsetX = offsetX;
       moveableObjects[movingObjekt].offsetY = offsetY;
+
+      moveableObjects[movingObjekt].elementObject.style.perspectiveOrigin = -offsetX/moveableObjects[movingObjekt].elementObject.getBoundingClientRect().width*100+100+"% " + -offsetY/moveableObjects[movingObjekt].elementObject.getBoundingClientRect().height*100+100+"%";
 
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
@@ -119,6 +121,7 @@ for (var elementId in moveableObjects) {
           JSON.stringify(moveableObjects)
         );
         movingObjekt = undefined;
+        updatePositions();
       }
     }
   }
@@ -130,11 +133,14 @@ function updatePositions(ignoreValidity = false) {
     if (moveableObjects.hasOwnProperty(elementId)) {
       var elementInfo = moveableObjects[elementId];
       var element = elementInfo.elementObject;
-      var oldPositions = [element.style.left, element.style.top];
+      var oldPositions = [
+        parseFloat(element.style.left) || 0,
+        parseFloat(element.style.top) || 0,
+      ];
       // Update the left and top positions of the element
       element.style.left = elementInfo.position.left + "px";
       element.style.top = elementInfo.position.top + "px";
-
+      var deltaOldPositions = [oldPositions[0]*1 - parseFloat(element.style.left)*1, oldPositions[1]*1 - parseFloat(element.style.top)*1]
       if (isElementOutsideViewport(element, true) && !ignoreValidity) {
         moveToValidPosition(elementId);
       }
@@ -143,22 +149,45 @@ function updatePositions(ignoreValidity = false) {
 
       // Calculate angle between the sun and the draggable element
 
-      var deltaX = elementInfo.position.left - sunX;
-      var deltaY = elementInfo.position.top - sunY;
-      var angleRadians = Math.atan2(deltaY, deltaX);
+      var deltaXsun = elementInfo.position.left - sunX;
+      var deltaYsun = elementInfo.position.top - sunY;
+      var angleRadians = Math.atan2(deltaYsun, deltaXsun);
 
       // Calculate shadow position based on angle and distance
       var shadowX = shadowDistance * Math.cos(angleRadians);
       var shadowY = shadowDistance * Math.sin(angleRadians);
 
-      // Apply drop shadow effect
+
       element.style.setProperty("--shadowX", shadowX + "px");
       element.style.setProperty("--shadowY", shadowY + "px");
+
+      // Calculate rotation angle based on movement direction
+      var movementMagnitude = Math.sqrt(
+        deltaOldPositions[0] ** 2 + deltaOldPositions[1] ** 2
+      );
+      var rotationAngle = 20 * (1 - Math.exp(-movementMagnitude / 25)); // Adjust scaling factor as needed
+
+      // Determine the axis of rotation
+      var rotationAxisX = deltaOldPositions[1];
+      var rotationAxisY = -deltaOldPositions[0];
+
+      // Apply the 3D rotation with smooth transition
+      if (element.classList.contains("dragging")){
+      //console.log([elementInfo.position.left,  elementInfo.position.top], oldPositions, deltaOldPositions, rotationAngle);
+      }
+      element.getElementsByClassName("content")[0].style.transform =
+      "rotate3d(" +
+      rotationAxisX +
+      ", " +
+      rotationAxisY +
+      ", 0, " +
+      rotationAngle +
+      "deg)";
     }
   }
 }
 updatePositions();
-
+updatePositions();
 function bringToFront(elementId) {
   var zIndexCounter = 0;
   moveableObjects[elementId].z_index = Object.keys(moveableObjects).length + 2;
@@ -227,5 +256,4 @@ function moveToRandomPosition(elementId) {
   moveableObjects[elementId].position.left = Math.random() * viewportWidth;
   moveableObjects[elementId].position.top = Math.random() * viewportHeight;
 }
-
 
